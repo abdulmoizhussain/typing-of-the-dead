@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>OpenCV.js</title>
+	<style>
+		#img-reader {
+			width: 200px;
+			height: 200px;
+			border: 1px solid black;
+			text-align: center;
+			padding: auto;
+		}
+
+		img {
+			display: none;
+		}
+
+		canvas {
+			display: block;
+		}
+
+		input {
+			height: 100px;
+			border: 1px solid black;
+		}
+	</style>
+</head>
+
+<body>
+	<input type="file" id="input-element">
+	<br>
+	<img src="" alt="" id="src-image">
+
+	<script type="text/javascript">
+		const imageElements = [];
+		const images = [];
+		const inputElement = document.getElementById("input-element");
+		const imgElement = document.getElementById("src-image");
+		inputElement.addEventListener("change", (e) => {
+			imgElement.src = URL.createObjectURL(e.target.files[0]);
+		}, false);
+
+
+		imgElement.onload = function () {
+			let srcMat = cv.imread(imgElement);
+			let cMat = srcMat.clone();
+			let contoursMat = cv.Mat.zeros(srcMat.cols, srcMat.rows, cv.CV_8UC3);
+			ImShow(srcMat);
+
+			cv.cvtColor(srcMat, srcMat, cv.COLOR_RGBA2GRAY, 0);
+			ImShow(srcMat);
+			// cv.threshold(srcMat, srcMat, 128, 255, cv.THRESH_BINARY);
+			cv.threshold(srcMat, srcMat, 125, 255, cv.THRESH_BINARY);
+			ImShow(srcMat);
+
+			let contours = new cv.MatVector();
+			let hierarchy = new cv.Mat();
+			// cv.findContours(srcMat, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
+			cv.findContours(srcMat, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
+			// RETR_EXTERNAL 765, CHAIN_APPROX_SIMPLE.765, CHAIN_APPROX_TC89_KCOS.765, CHAIN_APPROX_TC89_L1.765
+			// RETR_TREE 1173
+			for (let i = 0; i < contours.size(); ++i) {
+
+				let tmp = new cv.Mat();
+				let cnt = contours.get(i);
+				const arcLength = cv.arcLength(cnt, true);
+				// cv.approxPolyDP(cnt, tmp, 3, true);
+				cv.approxPolyDP(cnt, tmp, 0.01 * arcLength, true);
+
+
+				if (tmp.data.length == 32) {
+					console.log(tmp)
+					let color = new cv.Scalar(255, 0, 0);
+					cv.drawContours(contoursMat, contours, i, color, 1, cv.LINE_8, hierarchy, 100);
+
+				}
+			}
+			ImShow(contoursMat);
+		};
+
+		function ImShow(ImShow_img) {
+			const newCanvasId = "img" + images.length;
+
+			const newCanvas = document.createElement("canvas");
+			newCanvas.setAttribute("id", newCanvasId);
+
+			document.body.appendChild(newCanvas);
+			cv.imshow(newCanvasId, ImShow_img);
+
+			imageElements.push(newCanvas);
+			images.push("");
+		}
+		function createImage(base64 = "", labelText = "") {
+			const newImg = document.createElement("img");
+			newImg.src = base64;
+			document.body.appendChild(newImg);
+
+			const label = document.createElement("h2");
+			label.innerHTML = !!labelText ? labelText : "img" + images.length;
+			document.body.appendChild(label);
+
+			imageElements.push(newImg);
+			images.push(base64);
+		}
+		function onOpenCvReady() {
+			// greenbox.png
+			console.log(cv);
+		}
+	</script>
+	<script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+</body>
+
+</html>

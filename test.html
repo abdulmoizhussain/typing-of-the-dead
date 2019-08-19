@@ -64,10 +64,10 @@
 			for (let i = 0; i < contours.size(); ++i) {
 
 				let tmp = new cv.Mat();
-				let cnt = contours.get(i);
-				const arcLength = cv.arcLength(cnt, true);
-				// cv.approxPolyDP(cnt, tmp, 3, true);
-				cv.approxPolyDP(cnt, tmp, 0.01 * arcLength, true);
+				let cont = contours.get(i);
+				const arcLength = cv.arcLength(cont, true);
+				// cv.approxPolyDP(cont, tmp, 3, true);
+				cv.approxPolyDP(cont, tmp, 0.01 * arcLength, true);
 
 
 				if (tmp.data.length == 32) {
@@ -107,9 +107,11 @@
 		function onOpenCvReady() {
 			// greenbox.png
 			console.log(cv);
+			console.log(cv.getBuildInformation())
 		}
 	</script>
 	<script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+	<!-- <script async src="master-opencv.js" onload="onOpenCvReady();" type="text/javascript"></script> -->
 </body>
 
 </html>

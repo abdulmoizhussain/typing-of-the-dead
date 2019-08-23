@@ -24,8 +24,8 @@
 			const srcImgElement = await createAndShowImageElement("data:image/png;base64," + srcImgBase64, "src");
 
 			let srcMat = cv.imread(srcImgElement);
-			let cMat = srcMat.clone();
-			let contoursMat = cv.Mat.zeros(srcMat.rows, srcMat.cols, cv.CV_8UC3);
+			let contoursMat = srcMat.clone();
+			// let contoursMat = cv.Mat.zeros(srcMat.rows, srcMat.cols, cv.CV_8UC3);
 			ImShow(srcMat);
 
 			let grayMat = srcMat.clone();
@@ -65,7 +65,7 @@
 				let area = cv.contourArea(cont, true);
 				if (area < 1000 || arcLength < 650)
 					continue;
-				console.log(arcLength)
+				// console.log(arcLength)
 
 				// cv.approxPolyDP(cont, tmp, 3, true);
 
@@ -79,7 +79,7 @@
 					let color = [255, 0, 0, 255];
 
 					// cv.drawContours(contoursMat, contours, i, color, 0.5, cv.LINE_8, hierarchy, 100);
-					cv.drawContours(contoursMat, contours, i, color, 1, cv.LINE_4, hierarchy);
+					cv.drawContours(contoursMat, contours, i, color, 2, cv.LINE_4, hierarchy);
 					// LINE_4
 					// LINE_8
 					// LINE_AA

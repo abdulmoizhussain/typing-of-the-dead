@@ -16,7 +16,6 @@ running = True
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 
-# pyautogui.typewrite('Hello world!', interval=0.08)
 
 # pyautogui.hotkey('shift', '`')
 # pyautogui.keyDown("shift")
@@ -25,7 +24,7 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tessera
 
 # exit(0)
 
-# pyautogui.typewrite("Miserable defeat")
+# pyautogui.typewrite('Hello world!', interval=0.08)
 # # pyautogui.sleep(2)
 # print ("asdasd")
 

@@ -43,3 +43,38 @@ def take_ss():
         np.array(Image.frombytes("RGB", (game_width, game_height), sct.grab(monitor).rgb)),
         cv.COLOR_RGB2BGR
     )
+
+
+SHIFT_KEY = {
+    "~": "`",
+    "!": "1",
+    "@": "2",
+    "#": "3",
+    "$": "4",
+    "%": "5",
+    "^": "6",
+    "&": "7",
+    "*": "8",
+    "(": "9",
+    ")": "0",
+    "_": "-",
+    "+": "=",
+    "{": "[",
+    "}": "]",
+    "|": "\\",
+    ":": ";",
+    "\"": "'",
+    "<": ",",
+    ">": ".",
+    "?": "/"
+}
+
+
+def type_it(char):
+    if SHIFT_KEY.keys().__contains__(char):
+        pyautogui.keyDown("shift")
+        pyautogui.press(SHIFT_KEY[char])
+        pyautogui.keyUp("shift")
+    else:
+        pyautogui.press(char)
+        # pyautogui.typewrite cannot type shift-keys.

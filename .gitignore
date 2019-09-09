@@ -1,5 +1,10 @@
 /**/node_modules
 /**/venv
 /**/.idea
-/**/__pycache__
+/**/*__pycache__
 /**/*.pyc
+/**/*Tesseract-OCR
+/**/*build
+/**/*dist
+/**/*.spec
+/**/*Python37-32

@@ -1,20 +1,18 @@
-import cv2 as cv
+import cv2.cv2 as cv
 from mss import mss
 import pyautogui
 from PIL import Image
 import numpy as np
 
-sct = mss()
 game_width, game_height = 640, 480  # Game's resolution
-w, h = pyautogui.size()
-monitor = {'top': 0, 'left': w, 'width': game_width, 'height': game_height}
+sct = mss()
+
 window_source = "Source"
 window_processed = "Processed"
 
 
 def avg_of_difference(a, b, percent):
     return (a if a < b else b) + (abs(a - b) * percent)
-
 
 def put_text(img, text, x, y):
     cv.putText(img,
@@ -26,7 +24,7 @@ def put_text(img, text, x, y):
                2)
 
 
-def show_detections(img, contour, text, x, y):
+def show_contours(img, contour, text, x, y):
     cv.drawContours(img, [contour], 0, [0, 0, 255], 2)
     cv.putText(img,
                text,
@@ -38,9 +36,9 @@ def show_detections(img, contour, text, x, y):
     cv.imshow(window_source, img)
 
 
-def take_ss():
+def take_ss(monitor_config):
     return cv.cvtColor(
-        np.array(Image.frombytes("RGB", (game_width, game_height), sct.grab(monitor).rgb)),
+        np.array(Image.frombytes("RGB", (game_width, game_height), sct.grab(monitor_config).rgb)),
         cv.COLOR_RGB2BGR
     )
 
@@ -77,4 +75,4 @@ def type_it(char):
         pyautogui.keyUp("shift")
     else:
         pyautogui.press(char)
-        # pyautogui.typewrite cannot type shift-keys.
+        # pyautogui.typewrite  <- Game does not detect shift-keys typed by typewrite.

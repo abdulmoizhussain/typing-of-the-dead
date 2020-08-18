@@ -1,6 +1,6 @@
-const {
-  desktopCapturer,
-} = require("electron");
+// const {
+//   desktopCapturer,
+// } = require("electron");
 const fs = require("fs");
 let recorder, isRecording = false;
 let blobs = [], recordingInitTime = null, timerId = null;
